@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./components/app.jsx";
+import App from "./components/app/app.jsx";
 
-const MISTAKES_COUNT = 3;
+const MISTAKE_QUANTITY = 3;
 
 ReactDOM.render(
-    <App mistakes={MISTAKES_COUNT}/>,
+    <App mistakeQuantity={MISTAKE_QUANTITY}/>,
     document.querySelector(`#root`)
 );
