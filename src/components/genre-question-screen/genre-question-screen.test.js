@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import GenreQuestionScreen from './genre-question-screen.jsx';
 
-const onAnswer = () => {};
+
 const question = {
   type: `genre`,
   genre: `rock`,
@@ -18,19 +18,19 @@ const question = {
   }, {
     src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
     genre: `rock`,
-  }]
+  }],
 };
-
-it(`<GenreQuestionScreen /> component renders correctly`, () => {
-  const tree = renderer
-    .create((<GenreQuestionScreen
-      onAnswer={onAnswer}
+it(`GenreQuestionScreen is rendered correctly`, () => {
+  const tree = renderer.create((
+    <GenreQuestionScreen
       question={question}
-    />), {
-      createNodeMock: () => {
-        return {};
-      }
-    })
-    .toJSON();
+      onAnswer={() => {}}
+      renderPlayer={() => {}}
+    />
+  ), {
+    createNodeMock: () => {
+      return {};
+    }
+  }).toJSON();
   expect(tree).toMatchSnapshot();
 });
