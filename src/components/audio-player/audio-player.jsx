@@ -13,6 +13,8 @@ export default class AudioPlayer extends PureComponent {
       isLoading: true,
       isPlaying: false,
     };
+
+    this._handlePlayToggle = this._handlePlayToggle.bind(this);
   }
 
   componentDidMount() {
@@ -51,6 +53,12 @@ export default class AudioPlayer extends PureComponent {
     audio = null;
   }
 
+  _handlePlayToggle() {
+    this.setState((pervState) => {
+      return {isPlaying: !pervState.isPlaying};
+    });
+  }
+
   render() {
     const {isLoading, isPlaying} = this.state;
     const {onPlayButtonClick} = this.props;
@@ -62,7 +70,7 @@ export default class AudioPlayer extends PureComponent {
           type="button"
           disabled={isLoading}
           onClick={() => {
-            this.setState({isPlaying: !this.state.isPlaying});
+            this._handlePlayToggle();
             onPlayButtonClick();
           }}
         />
