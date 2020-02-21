@@ -1,50 +1,145 @@
-import React from 'react';
-import renderer from 'react-test-renderer';
-import App from './app.jsx';
-
-const mistakeQuantity = 3;
+import React from "react";
+import renderer from "react-test-renderer";
+import {Provider} from "react-redux";
+import configureStore from "redux-mock-store";
+import {App} from "./app.jsx";
+const mockStore = configureStore([]);
+const AVATAR_URL = `https://api.adorable.io/avatars/128`;
 const questions = [
   {
     type: `genre`,
-    genre: `rock`,
+    genre: `metal`,
     answers: [{
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
+      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
       genre: `rock`,
     }, {
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
-      genre: `blues`,
+      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
+      genre: `folk`,
     }, {
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
-      genre: `jazz`,
+      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
+      genre: `mdm`,
     }, {
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
-      genre: `rock`,
-    }],
-  }, {
-    type: `artist`,
-    song: {
-      artist: `Jim Beam`,
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
-    },
-    answers: [{
-      picture: `https://api.adorable.io/avatars/128/1`,
-      artist: `John Snow`,
-    }, {
-      picture: `https://api.adorable.io/avatars/128/2`,
-      artist: `Jack Daniels`,
-    }, {
-      picture: `https://api.adorable.io/avatars/128/3`,
-      artist: `Jim Beam`,
+      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
+      genre: `metal`,
     }],
   },
+  {
+    type: `artist`,
+    song: {
+      artist: `Metallica`,
+      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
+    },
+    answers: [{
+      picture: `${AVATAR_URL}/A`,
+      artist: `Anthrax`,
+    }, {
+      picture: `${AVATAR_URL}/AB`,
+      artist: `Megadeth`,
+    }, {
+      picture: `${AVATAR_URL}/AC`,
+      artist: `Metallica`,
+    }],
+  },
+  {
+    type: `genre`,
+    genre: `metal`,
+    answers: [{
+      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
+      genre: `rock`,
+    }, {
+      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
+      genre: `folk`,
+    }, {
+      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
+      genre: `mdm`,
+    }, {
+      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
+      genre: `metal`,
+    }],
+  },
+  {
+    type: `artist`,
+    song: {
+      artist: `Metallica`,
+      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
+    },
+    answers: [{
+      picture: `${AVATAR_URL}/A`,
+      artist: `Anthrax`,
+    }, {
+      picture: `${AVATAR_URL}/AB`,
+      artist: `Megadeth`,
+    }, {
+      picture: `${AVATAR_URL}/AC`,
+      artist: `Metallica`,
+    }],
+  }
 ];
 
-it(`<App /> component renders correctly`, () => {
-  const tree = renderer
-    .create(<App
-      mistakeQuantity={mistakeQuantity}
-      questions={questions}
-    />)
-    .toJSON();
-  expect(tree).toMatchSnapshot();
+describe(`Render App`, () => {
+  it(`Render WelcomeScreen`, () => {
+    const store = mockStore({
+      mistakes: 0,
+    });
+    const tree = renderer
+      .create(
+          <Provider store={store}>
+            <App
+              maxMistakes={3}
+              questions={questions}
+              onUserAnswer={() => {}}
+              onWelcomeButtonClick={() => {}}
+              step={-1}
+            />
+          </Provider>
+      )
+      .toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+
+  it(`Render GenreQuestionScreen`, () => {
+    const store = mockStore({
+      mistakes: 3,
+    });
+    const tree = renderer
+      .create(
+          <Provider store={store}>
+            <App
+              maxMistakes={3}
+              questions={questions}
+              onUserAnswer={() => {}}
+              onWelcomeButtonClick={() => {}}
+              step={0}
+            />
+          </Provider>, {
+            createNodeMock: () => {
+              return {};
+            }
+          }).toJSON();
+
+    expect(tree).toMatchSnapshot();
+  });
+
+  it(`Render ArtistQuestionScreen`, () => {
+    const store = mockStore({
+      mistakes: 3,
+    });
+    const tree = renderer
+      .create(
+          <Provider store={store}>
+            <App
+              maxMistakes={3}
+              questions={questions}
+              onUserAnswer={() => {}}
+              onWelcomeButtonClick={() => {}}
+              step={1}
+            />
+          </Provider>, {
+            createNodeMock: () => {
+              return {};
+            }
+          }).toJSON();
+
+    expect(tree).toMatchSnapshot();
+  });
 });

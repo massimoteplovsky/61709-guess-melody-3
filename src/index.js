@@ -1,14 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/app/app.jsx";
-import questions from "./mocks/questions.js";
-
-const MISTAKE_QUANTITY = 3;
+import {Provider} from "react-redux";
+import store from './store';
 
 ReactDOM.render(
-    <App
-      mistakeQuantity={MISTAKE_QUANTITY}
-      questions={questions}
-    />,
+    <Provider store={store}>
+      <App/>
+    </Provider>,
     document.querySelector(`#root`)
 );

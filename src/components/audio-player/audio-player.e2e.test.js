@@ -8,7 +8,7 @@ Enzyme.configure({adapter: new Adapter()});
 jest.spyOn(window.HTMLMediaElement.prototype, `play`)
   .mockImplementation(() => {});
 
-jest.spyOn(window.HTMLMediaElement.prototype, `load`)
+jest.spyOn(window.HTMLMediaElement.prototype, `pause`)
   .mockImplementation(() => {});
 
 it(`AudioPlayer changed state after click`, () => {
