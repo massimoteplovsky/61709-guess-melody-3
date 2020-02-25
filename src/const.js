@@ -1,4 +1,2 @@
-export const GameType = {
-  ARTIST: `artist`,
-  GENRE: `genre`,
-};
+export const ARTIST = `artist`;
+export const GENRE = `genre`;

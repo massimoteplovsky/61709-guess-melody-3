@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {GameType} from "../../const.js";
+import {ARTIST, GENRE} from "../../const.js";
 import {connect} from "react-redux";
 import Mistakes from "../mistakes/mistakes.jsx";
 
@@ -37,7 +37,7 @@ const GameScreen = (props) => {
 
 
 GameScreen.propTypes = {
-  type: PropTypes.oneOf([GameType.ARTIST, GameType.GENRE]).isRequired,
+  type: PropTypes.oneOf([ARTIST, GENRE]).isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node

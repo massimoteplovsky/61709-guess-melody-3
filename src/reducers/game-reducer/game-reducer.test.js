@@ -1,8 +1,9 @@
 import {gameReducer} from "./game-reducer.js";
-import {incrementStep, incrementMistake} from "../../actions/action-creators/game-action-creators";
+import {incrementStep, incrementMistake, resetGame} from "../../actions/action-creators/game-action-creators";
 import {
   INCREMENT_MISTAKES,
-  INCREMENT_STEP
+  INCREMENT_STEP,
+  RESET
 } from '../../actions/types/game-action-types';
 
 const AVATAR_URL = `https://api.adorable.io/avatars/128`;
@@ -144,6 +145,47 @@ it(`Reducer should increment number of mistakes by a given value`, () => {
   });
 });
 
+it(`Reducer should return default`, () => {
+  expect(gameReducer({
+    step: 5,
+    mistakes: 1,
+  }, {
+    type: RESET,
+    payload: null,
+  })).toEqual({
+    step: 0,
+    mistakes: 0,
+    maxMistakes: 3,
+    questions,
+  });
+
+  expect(gameReducer({
+    step: 0,
+    mistakes: 0,
+  }, {
+    type: RESET,
+    payload: null,
+  })).toEqual({
+    step: 0,
+    mistakes: 0,
+    maxMistakes: 3,
+    questions,
+  });
+
+  expect(gameReducer({
+    step: -1,
+    mistakes: 0,
+  }, {
+    type: RESET,
+    payload: null,
+  })).toEqual({
+    step: 0,
+    mistakes: 0,
+    maxMistakes: 3,
+    questions,
+  });
+});
+
 describe(`Action creators work correctly`, () => {
   it(`Action creator for incrementing step returns correct action`, () => {
     expect(incrementStep()).toEqual({
@@ -256,5 +298,13 @@ describe(`Action creators work correctly`, () => {
       type: INCREMENT_MISTAKES,
       payload: 1,
     });
+  });
+
+  it(`Action creator for reset game returns action with null payload`, () => {
+    expect(resetGame())
+      .toEqual({
+        type: RESET,
+        payload: null,
+      });
   });
 });

@@ -4,76 +4,40 @@ import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import {App} from "./app.jsx";
 const mockStore = configureStore([]);
-const AVATAR_URL = `https://api.adorable.io/avatars/128`;
 const questions = [
   {
     type: `genre`,
-    genre: `metal`,
+    genre: `rock`,
     answers: [{
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
+      src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
       genre: `rock`,
     }, {
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
-      genre: `folk`,
+      src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
+      genre: `blues`,
     }, {
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
-      genre: `mdm`,
+      src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
+      genre: `jazz`,
     }, {
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
-      genre: `metal`,
-    }],
-  },
-  {
-    type: `artist`,
-    song: {
-      artist: `Metallica`,
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
-    },
-    answers: [{
-      picture: `${AVATAR_URL}/A`,
-      artist: `Anthrax`,
-    }, {
-      picture: `${AVATAR_URL}/AB`,
-      artist: `Megadeth`,
-    }, {
-      picture: `${AVATAR_URL}/AC`,
-      artist: `Metallica`,
-    }],
-  },
-  {
-    type: `genre`,
-    genre: `metal`,
-    answers: [{
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
+      src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
       genre: `rock`,
-    }, {
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
-      genre: `folk`,
-    }, {
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
-      genre: `mdm`,
-    }, {
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
-      genre: `metal`,
     }],
-  },
-  {
+  }, {
     type: `artist`,
     song: {
-      artist: `Metallica`,
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
+      artist: `Jim Beam`,
+      src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
     },
     answers: [{
-      picture: `${AVATAR_URL}/A`,
-      artist: `Anthrax`,
+      picture: `https://api.adorable.io/avatars/128/1`,
+      artist: `John Snow`,
     }, {
-      picture: `${AVATAR_URL}/AB`,
-      artist: `Megadeth`,
+      picture: `https://api.adorable.io/avatars/128/2`,
+      artist: `Jack Daniels`,
     }, {
-      picture: `${AVATAR_URL}/AC`,
-      artist: `Metallica`,
+      picture: `https://api.adorable.io/avatars/128/3`,
+      artist: `Jim Beam`,
     }],
-  }
+  },
 ];
 
 describe(`Render App`, () => {
@@ -86,10 +50,12 @@ describe(`Render App`, () => {
           <Provider store={store}>
             <App
               maxMistakes={3}
+              mistakes={0}
               questions={questions}
               onUserAnswer={() => {}}
               onWelcomeButtonClick={() => {}}
               step={-1}
+              onResetGame={() => {}}
             />
           </Provider>
       )
@@ -106,20 +72,21 @@ describe(`Render App`, () => {
           <Provider store={store}>
             <App
               maxMistakes={3}
+              mistakes={0}
               questions={questions}
               onUserAnswer={() => {}}
               onWelcomeButtonClick={() => {}}
               step={0}
+              onResetGame={() => {}}
             />
           </Provider>, {
             createNodeMock: () => {
               return {};
             }
-          }).toJSON();
-
+          })
+      .toJSON();
     expect(tree).toMatchSnapshot();
   });
-
   it(`Render ArtistQuestionScreen`, () => {
     const store = mockStore({
       mistakes: 3,
@@ -129,16 +96,73 @@ describe(`Render App`, () => {
           <Provider store={store}>
             <App
               maxMistakes={3}
+              mistakes={0}
               questions={questions}
               onUserAnswer={() => {}}
               onWelcomeButtonClick={() => {}}
               step={1}
+              onResetGame={() => {}}
             />
           </Provider>, {
             createNodeMock: () => {
               return {};
             }
-          }).toJSON();
+          })
+      .toJSON();
+
+    expect(tree).toMatchSnapshot();
+  });
+
+  it(`Render GameOverScreen`, () => {
+    const store = mockStore({
+      mistakes: 3,
+    });
+
+    const tree = renderer
+      .create(
+          <Provider store={store}>
+            <App
+              maxMistakes={3}
+              mistakes={3}
+              questions={questions}
+              onUserAnswer={() => {}}
+              onWelcomeButtonClick={() => {}}
+              step={1}
+              onResetGame={() => {}}
+            />
+          </Provider>, {
+            createNodeMock: () => {
+              return {};
+            }
+          })
+      .toJSON();
+
+    expect(tree).toMatchSnapshot();
+  });
+
+  it(`Render WinScreen`, () => {
+    const store = mockStore({
+      mistakes: 3,
+    });
+
+    const tree = renderer
+      .create(
+          <Provider store={store}>
+            <App
+              maxMistakes={3}
+              mistakes={0}
+              questions={questions}
+              onUserAnswer={() => {}}
+              onWelcomeButtonClick={() => {}}
+              step={3}
+              onResetGame={() => {}}
+            />
+          </Provider>, {
+            createNodeMock: () => {
+              return {};
+            }
+          })
+      .toJSON();
 
     expect(tree).toMatchSnapshot();
   });

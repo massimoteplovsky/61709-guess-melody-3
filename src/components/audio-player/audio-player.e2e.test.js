@@ -1,30 +1,32 @@
 import React from 'react';
-import Enzyme, {mount} from 'enzyme';
+import Enzyme, {shallow} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import AudioPlayer from './audio-player';
 
 Enzyme.configure({adapter: new Adapter()});
 
-jest.spyOn(window.HTMLMediaElement.prototype, `play`)
-  .mockImplementation(() => {});
+// jest.spyOn(window.HTMLMediaElement.prototype, `play`)
+//   .mockImplementation(() => {});
 
-jest.spyOn(window.HTMLMediaElement.prototype, `pause`)
-  .mockImplementation(() => {});
+// jest.spyOn(window.HTMLMediaElement.prototype, `pause`)
+//   .mockImplementation(() => {});
 
+const onPlayButtonClick = jest.fn();
 it(`AudioPlayer changed state after click`, () => {
 
-  const player = mount(
+  const player = shallow(
       <AudioPlayer
+        isPlaying={false}
+        isLoading={true}
+        onPlayButtonClick={onPlayButtonClick}
         src={``}
-        isPlaying={true}
-        onPlayButtonClick={() => {}}
-      />);
+      >
+        <audio />
+      </AudioPlayer>);
 
-  expect(player.state(`isPlaying`)).toEqual(true);
+  const btn = player.find(`.track__button`);
 
-  player.instance()._audioRef.current.onplay();
-  expect(player.state(`isPlaying`)).toEqual(true);
+  btn.simulate(`click`);
 
-  player.instance()._audioRef.current.onpause();
-  expect(player.state(`isPlaying`)).toEqual(false);
+  expect(onPlayButtonClick).toHaveBeenCalledTimes(1);
 });

@@ -1,18 +1,19 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
-import {GameType} from "../../const.js";
+import {ARTIST, GENRE} from "../../const.js";
+import GenreQuestionItem from "../genre-question-item/genre-question-item.jsx";
 
 class GenreQuestionScreen extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userAnswers: [false, false, false, false]
-    };
-  }
 
   render() {
-    const {onAnswer, question, renderPlayer} = this.props;
-    const {userAnswers} = this.state;
+    const {
+      onAnswer,
+      onChange,
+      question,
+      renderPlayer,
+      userAnswers,
+    } = this.props;
+
     const {
       answers,
       genre,
@@ -25,27 +26,18 @@ class GenreQuestionScreen extends PureComponent {
           className="game__tracks"
           onSubmit={(evt) => {
             evt.preventDefault();
-            onAnswer(question, this.state.userAnswers);
+            onAnswer();
           }}
         >
           {answers.map((answer, i) => (
-            <div key={`${i}-${answer.src}`} className="track">
-              {renderPlayer(answer.src, i)}
-              <div className="game__answer">
-                <input className="game__input visually-hidden" type="checkbox" name="answer" value={`answer-${i}`}
-                  id={`answer-${i}`}
-                  checked={userAnswers[i]}
-                  onChange={(evt) => {
-                    const value = evt.target.checked;
-
-                    this.setState({
-                      userAnswers: [...userAnswers.slice(0, i), value, ...userAnswers.slice(i + 1)],
-                    });
-                  }}
-                />
-                <label className="game__check" htmlFor={`answer-${i}`}>Отметить</label>
-              </div>
-            </div>
+            <GenreQuestionItem
+              answer={answer}
+              id={i}
+              key={`${i}-${answer.src}`}
+              onChange={onChange}
+              renderPlayer={renderPlayer}
+              userAnswer={userAnswers[i]}
+            />
           ))}
 
           <button className="game__submit button" type="submit">Ответить</button>
@@ -57,15 +49,17 @@ class GenreQuestionScreen extends PureComponent {
 
 GenreQuestionScreen.propTypes = {
   onAnswer: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   question: PropTypes.shape({
     answers: PropTypes.arrayOf(PropTypes.shape({
       src: PropTypes.string.isRequired,
       genre: PropTypes.string.isRequired,
     })).isRequired,
     genre: PropTypes.string.isRequired,
-    type: PropTypes.oneOf([GameType.ARTIST, GameType.GENRE]).isRequired,
+    type: PropTypes.oneOf([ARTIST, GENRE]).isRequired,
   }).isRequired,
   renderPlayer: PropTypes.func.isRequired,
+  userAnswers: PropTypes.arrayOf(PropTypes.bool).isRequired,
 };
 
 

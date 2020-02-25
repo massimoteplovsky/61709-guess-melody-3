@@ -1,8 +1,9 @@
 import {
   INCREMENT_STEP,
-  INCREMENT_MISTAKES
+  INCREMENT_MISTAKES,
+  RESET
 } from '../types/game-action-types';
-import {GameType} from "../../const.js";
+import {ARTIST, GENRE} from "../../const.js";
 
 
 export const incrementStep = () => ({
@@ -24,10 +25,10 @@ export const incrementMistake = (question, userAnswer) => {
   let answerIsCorrect = false;
 
   switch (question.type) {
-    case GameType.ARTIST:
+    case ARTIST:
       answerIsCorrect = isArtistAnswerCorrect(question, userAnswer);
       break;
-    case GameType.GENRE:
+    case GENRE:
       answerIsCorrect = isGenreAnswerCorrect(question, userAnswer);
       break;
   }
@@ -35,5 +36,12 @@ export const incrementMistake = (question, userAnswer) => {
   return {
     type: INCREMENT_MISTAKES,
     payload: answerIsCorrect ? 0 : 1,
+  };
+};
+
+export const resetGame = () => {
+  return {
+    type: RESET,
+    payload: null,
   };
 };

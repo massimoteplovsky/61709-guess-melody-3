@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {GameType} from "../../const.js";
+import {ARTIST, GENRE} from "../../const.js";
 
 const ArtistQuestionScreen = (props) => {
   const {onAnswer, question, renderPlayer} = props;
@@ -49,7 +49,7 @@ ArtistQuestionScreen.propTypes = {
       artist: PropTypes.string.isRequired,
       src: PropTypes.string.isRequired,
     }).isRequired,
-    type: PropTypes.oneOf([GameType.ARTIST, GameType.GENRE]).isRequired,
+    type: PropTypes.oneOf([ARTIST, GENRE]).isRequired,
   }).isRequired,
   renderPlayer: PropTypes.func.isRequired,
 };
