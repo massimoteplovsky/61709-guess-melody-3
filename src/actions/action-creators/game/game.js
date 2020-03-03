@@ -2,8 +2,8 @@ import {
   INCREMENT_STEP,
   INCREMENT_MISTAKES,
   RESET
-} from '../types/game-action-types';
-import {ARTIST, GENRE} from "../../const.js";
+} from '../../types/game';
+import {ARTIST, GENRE} from "../../../const.js";
 
 
 export const incrementStep = () => ({

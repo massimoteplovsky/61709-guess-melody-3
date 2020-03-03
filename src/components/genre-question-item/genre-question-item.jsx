@@ -1,7 +1,6 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 
-
 class GenreQuestionItem extends PureComponent {
   render() {
     const {answer, id, onChange, renderPlayer, userAnswer} = this.props;
@@ -15,7 +14,6 @@ class GenreQuestionItem extends PureComponent {
             checked={userAnswer}
             onChange={(evt) => {
               const value = evt.target.checked;
-
               onChange(id, value);
             }}
           />

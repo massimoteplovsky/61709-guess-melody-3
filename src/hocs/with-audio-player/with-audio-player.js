@@ -5,6 +5,7 @@ import withAudio from "../with-audio/with-audio.js";
 const WrappedAudioPlayer = withAudio(AudioPlayer);
 
 const withActivePlayer = (Component) => {
+
   class WithActivePlayer extends PureComponent {
     constructor(props) {
       super(props);

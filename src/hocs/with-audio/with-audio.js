@@ -44,7 +44,7 @@ const withAudio = (Component) => {
     componentDidUpdate() {
       const audio = this._audioRef.current;
 
-      if (this.props.isPlaying) {
+      if (this.state.isPlaying) {
         audio.play();
       } else {
         audio.pause();
@@ -71,7 +71,11 @@ const withAudio = (Component) => {
           isLoading={isLoading}
           isPlaying={isPlaying}
           onPlayButtonClick={() => {
-            this.setState({isPlaying: !isPlaying});
+            this.setState((state) => {
+              return {
+                isPlaying: !state.isPlaying
+              };
+            });
             onPlayButtonClick();
           }}
         >

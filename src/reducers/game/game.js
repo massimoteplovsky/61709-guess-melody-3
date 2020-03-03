@@ -3,18 +3,15 @@ import {
   INCREMENT_STEP,
   INCREMENT_MISTAKES,
   RESET
-
-} from '../../actions/types/game-action-types';
-import questions from "../../mocks/questions";
+} from '../../actions/types/game';
 
 const initialState = {
   mistakes: 0,
   step: -1,
-  maxMistakes: 3,
-  questions
+  maxMistakes: 3
 };
 
-export const gameReducer = (state = initialState, action) => {
+export const game = (state = initialState, action) => {
   switch (action.type) {
     case INCREMENT_STEP:
       return extend(state, {

@@ -1,32 +1,19 @@
-import React from 'react';
-import Enzyme, {shallow} from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-import AudioPlayer from './audio-player';
+import React from "react";
+import {configure, shallow} from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
+import AudioPlayer from "./audio-player.jsx";
 
-Enzyme.configure({adapter: new Adapter()});
+configure({adapter: new Adapter()});
 
-// jest.spyOn(window.HTMLMediaElement.prototype, `play`)
-//   .mockImplementation(() => {});
+it(`Click by Play button calls callback`, () => {
+  const handlePlayButtonClick = jest.fn();
+  const wrapper = shallow(<AudioPlayer
+    isLoading={false}
+    isPlaying={false}
+    onPlayButtonClick={handlePlayButtonClick}>
+    <audio />
+  </AudioPlayer>);
 
-// jest.spyOn(window.HTMLMediaElement.prototype, `pause`)
-//   .mockImplementation(() => {});
-
-const onPlayButtonClick = jest.fn();
-it(`AudioPlayer changed state after click`, () => {
-
-  const player = shallow(
-      <AudioPlayer
-        isPlaying={false}
-        isLoading={true}
-        onPlayButtonClick={onPlayButtonClick}
-        src={``}
-      >
-        <audio />
-      </AudioPlayer>);
-
-  const btn = player.find(`.track__button`);
-
-  btn.simulate(`click`);
-
-  expect(onPlayButtonClick).toHaveBeenCalledTimes(1);
+  wrapper.find(`.track__button`).simulate(`click`);
+  expect(handlePlayButtonClick).toHaveBeenCalledTimes(1);
 });

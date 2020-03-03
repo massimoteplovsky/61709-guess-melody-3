@@ -1,152 +1,70 @@
-import {gameReducer} from "./game-reducer.js";
-import {incrementStep, incrementMistake, resetGame} from "../../actions/action-creators/game-action-creators";
+import {game} from "./game";
+import {incrementStep, incrementMistake, resetGame} from "../../actions/action-creators/game/game";
 import {
   INCREMENT_MISTAKES,
   INCREMENT_STEP,
   RESET
-} from '../../actions/types/game-action-types';
-
-const AVATAR_URL = `https://api.adorable.io/avatars/128`;
-
-const questions = [
-  {
-    type: `genre`,
-    genre: `metal`,
-    answers: [{
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
-      genre: `rock`,
-    }, {
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
-      genre: `folk`,
-    }, {
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
-      genre: `mdm`,
-    }, {
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
-      genre: `metal`,
-    }],
-  },
-  {
-    type: `artist`,
-    song: {
-      artist: `Metallica`,
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
-    },
-    answers: [{
-      picture: `${AVATAR_URL}/A`,
-      artist: `Anthrax`,
-    }, {
-      picture: `${AVATAR_URL}/AB`,
-      artist: `Megadeth`,
-    }, {
-      picture: `${AVATAR_URL}/AC`,
-      artist: `Metallica`,
-    }],
-  },
-  {
-    type: `genre`,
-    genre: `metal`,
-    answers: [{
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
-      genre: `rock`,
-    }, {
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
-      genre: `folk`,
-    }, {
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
-      genre: `mdm`,
-    }, {
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
-      genre: `metal`,
-    }],
-  },
-  {
-    type: `artist`,
-    song: {
-      artist: `Metallica`,
-      src: `https://upload.wikimedia.org/wikipedia/commons/4/43/FSsongmetal2-MP3-LAME3.99.5-93.7kbps.oga`,
-    },
-    answers: [{
-      picture: `${AVATAR_URL}/A`,
-      artist: `Anthrax`,
-    }, {
-      picture: `${AVATAR_URL}/AB`,
-      artist: `Megadeth`,
-    }, {
-      picture: `${AVATAR_URL}/AC`,
-      artist: `Metallica`,
-    }],
-  }
-];
+} from '../../actions/types/game';
 
 
 it(`Reducer without additional parameters should return initial state`, () => {
-  expect(gameReducer(void 0, {})).toEqual({
+  expect(game(void 0, {})).toEqual({
     step: -1,
     mistakes: 0,
     maxMistakes: 3,
-    questions,
   });
 });
 
 it(`Reducer should increment current step by a given value`, () => {
-  expect(gameReducer({
+  expect(game({
     step: -1,
     mistakes: 0,
-    questions,
   }, {
     type: INCREMENT_STEP,
     payload: 1,
   })).toEqual({
     step: 0,
     mistakes: 0,
-    questions,
   });
 
-  expect(gameReducer({
+  expect(game({
     step: -1,
     mistakes: 0,
-    questions,
   }, {
     type: INCREMENT_STEP,
     payload: 0,
   })).toEqual({
     step: -1,
     mistakes: 0,
-    questions,
   });
 });
 
 it(`Reducer should increment number of mistakes by a given value`, () => {
-  expect(gameReducer({
+  expect(game({
     step: -1,
     mistakes: 0,
-    questions,
   }, {
     type: INCREMENT_MISTAKES,
     payload: 1,
   })).toEqual({
     step: -1,
     mistakes: 1,
-    questions,
   });
 
-  expect(gameReducer({
+  expect(game({
     step: -1,
     mistakes: 0,
-    questions,
   }, {
     type: INCREMENT_MISTAKES,
     payload: 0,
   })).toEqual({
     step: -1,
     mistakes: 0,
-    questions,
   });
 });
 
 it(`Reducer should return default`, () => {
-  expect(gameReducer({
+  expect(game({
     step: 5,
     mistakes: 1,
   }, {
@@ -156,10 +74,9 @@ it(`Reducer should return default`, () => {
     step: 0,
     mistakes: 0,
     maxMistakes: 3,
-    questions,
   });
 
-  expect(gameReducer({
+  expect(game({
     step: 0,
     mistakes: 0,
   }, {
@@ -169,10 +86,9 @@ it(`Reducer should return default`, () => {
     step: 0,
     mistakes: 0,
     maxMistakes: 3,
-    questions,
   });
 
-  expect(gameReducer({
+  expect(game({
     step: -1,
     mistakes: 0,
   }, {
@@ -182,7 +98,6 @@ it(`Reducer should return default`, () => {
     step: 0,
     mistakes: 0,
     maxMistakes: 3,
-    questions,
   });
 });
 
