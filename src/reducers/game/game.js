@@ -2,13 +2,14 @@ import {extend} from '../../utils';
 import {
   INCREMENT_STEP,
   INCREMENT_MISTAKES,
-  RESET
+  RESET,
+  GO_TO_WELCOME
 } from '../../actions/types/game';
 
 const initialState = {
   mistakes: 0,
   step: -1,
-  maxMistakes: 3
+  maxMistakes: 20
 };
 
 export const game = (state = initialState, action) => {
@@ -24,6 +25,10 @@ export const game = (state = initialState, action) => {
     case RESET:
       return extend(initialState, {
         step: 0,
+      });
+    case GO_TO_WELCOME:
+      return extend(initialState, {
+        step: -1,
       });
   }
 

@@ -1,9 +1,10 @@
 import {game} from "./game";
-import {incrementStep, incrementMistake, resetGame} from "../../actions/action-creators/game/game";
+import {incrementStep, incrementMistake, resetGame, goToWelcome} from "../../actions/action-creators/game/game";
 import {
   INCREMENT_MISTAKES,
   INCREMENT_STEP,
-  RESET
+  RESET,
+  GO_TO_WELCOME
 } from '../../actions/types/game';
 
 
@@ -96,6 +97,44 @@ it(`Reducer should return default`, () => {
     payload: null,
   })).toEqual({
     step: 0,
+    mistakes: 0,
+    maxMistakes: 3,
+  });
+});
+
+it(`Reducer should return step -1`, () => {
+  expect(game({
+    step: 5,
+    mistakes: 1,
+  }, {
+    type: GO_TO_WELCOME,
+    payload: null,
+  })).toEqual({
+    step: -1,
+    mistakes: 0,
+    maxMistakes: 3,
+  });
+
+  expect(game({
+    step: 0,
+    mistakes: 0,
+  }, {
+    type: GO_TO_WELCOME,
+    payload: null,
+  })).toEqual({
+    step: -1,
+    mistakes: 0,
+    maxMistakes: 3,
+  });
+
+  expect(game({
+    step: -1,
+    mistakes: 0,
+  }, {
+    type: GO_TO_WELCOME,
+    payload: null,
+  })).toEqual({
+    step: -1,
     mistakes: 0,
     maxMistakes: 3,
   });
@@ -219,6 +258,14 @@ describe(`Action creators work correctly`, () => {
     expect(resetGame())
       .toEqual({
         type: RESET,
+        payload: null,
+      });
+  });
+
+  it(`Action creator for go to welcome returns action with null payload`, () => {
+    expect(goToWelcome())
+      .toEqual({
+        type: GO_TO_WELCOME,
         payload: null,
       });
   });

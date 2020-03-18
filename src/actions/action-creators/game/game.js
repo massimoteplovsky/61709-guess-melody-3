@@ -1,7 +1,8 @@
 import {
   INCREMENT_STEP,
   INCREMENT_MISTAKES,
-  RESET
+  RESET,
+  GO_TO_WELCOME
 } from '../../types/game';
 import {ARTIST, GENRE} from "../../../const.js";
 
@@ -42,6 +43,13 @@ export const incrementMistake = (question, userAnswer) => {
 export const resetGame = () => {
   return {
     type: RESET,
+    payload: null,
+  };
+};
+
+export const goToWelcome = () => {
+  return {
+    type: GO_TO_WELCOME,
     payload: null,
   };
 };

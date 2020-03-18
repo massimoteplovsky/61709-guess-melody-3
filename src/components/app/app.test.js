@@ -46,7 +46,10 @@ describe(`Render App`, () => {
     const store = mockStore({
       game: {
         mistakes: 0,
-      }
+      },
+      user: {
+        authorizationStatus: NO_AUTH,
+      },
     });
     const tree = renderer
       .create(
@@ -160,7 +163,10 @@ describe(`Render App`, () => {
   it(`Render WinScreen`, () => {
     const store = mockStore({
       game: {
-        mistakes: 3,
+        mistakes: 5,
+      },
+      user: {
+        authorizationStatus: AUTH,
       }
     });
 
@@ -193,6 +199,9 @@ describe(`Render App`, () => {
       game: {
         mistakes: 3,
       },
+      user: {
+        authorizationStatus: NO_AUTH,
+      }
     });
 
     const tree = renderer

@@ -12,15 +12,17 @@ const withAudio = (Component) => {
       this.state = {
         progress: 0,
         isLoading: true,
-        isPlaying: props.isPlaying,
+        isPlaying: false,
       };
     }
 
     componentDidMount() {
-      const {src} = this.props;
+      const {src, isPlaying} = this.props;
       const audio = this._audioRef.current;
 
       audio.src = src;
+
+      this.setState({isPlaying});
 
       audio.oncanplaythrough = () => this.setState({
         isLoading: false,
@@ -32,9 +34,12 @@ const withAudio = (Component) => {
         });
       };
 
-      audio.onpause = () => this.setState({
-        isPlaying: false,
-      });
+      audio.onpause = () => {
+        console.log("Paused");
+        this.setState({
+          isPlaying: false,
+        });
+      };
 
       audio.ontimeupdate = () => this.setState({
         progress: Math.floor(audio.currentTime),
@@ -43,8 +48,9 @@ const withAudio = (Component) => {
 
     componentDidUpdate() {
       const audio = this._audioRef.current;
+      console.log("DID UPDATE");
 
-      if (this.state.isPlaying) {
+      if (this.props.isPlaying) {
         audio.play();
       } else {
         audio.pause();
@@ -64,6 +70,8 @@ const withAudio = (Component) => {
     render() {
       const {isLoading, isPlaying} = this.state;
       const {onPlayButtonClick} = this.props;
+
+      console.log(isPlaying);
 
       return (
         <Component
